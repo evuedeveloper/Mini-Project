@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/index.css">
+    <title>Fictional Printing and Packaging Expo</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <!-- <div class="logo"> -->
+            <!-- <img src="Utilities/PrintExpoTour logo, square shaped, simple, plain.png" alt="Expo Logo"> -->
+        <!-- </div> -->
+
+
+        <ul class="nav-list">
+            <li><a href="#home">Home</a></li>
+            <li><a href="HTML/Printing_Expo.html">Printing & Packaging Expo</a></li>
+            <li><a href="HTML/Fictional_Printing.html">Fictional Printing</a></li>
+            <li><a href="HTML/Schedules.html">Schedules</a></li>
+            <li><a href="HTML/Registration.html">Registration Details</a></li>
+            <li><a href="HTML/Online_Registration.html">Online Registration</a></li>
+            <li><a href="HTML/Contact.html">Contact Us</a></li>
+        </ul>
+        <!-- <div class="login-button">
+            <a href="HTML/Login.html">Login</a>
+        </div>
+        <div class="logout-button" style="display: none;">
+            <button id="logout">Logout</button>
+        </div> -->
+        <div class="login-logout-button">
+            <!--I instead made dynamic login and logout-->
+        </div>
+        
+    </nav>
+
+    <header class="banner">
+        <div class="banner-content">
+            <h1>
+                <span>Thrilled to</span><br>
+                <span>participate in</span><br>
+                <span>Packaging Expos?</span>
+            </h1>
+            <div class="cta-container">
+                <p class="cta-main">Look No Further</p>
+                <p class="cta-sub">Get latest updates here (please ensure your login first)</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="video-container">
+        <video autoplay loop muted>
+            <source src="./Utilities/Expo_Video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5mCEcdm2acbln2lc37ltdHBa5vTQcOek",
+            authDomain: "mini-project-2acd8.firebaseapp.com",
+            projectId: "mini-project-2acd8",
+            storageBucket: "mini-project-2acd8.appspot.com",
+            messagingSenderId: "94989986353",
+            appId: "1:94989986353:web:f75648ab0adbd6fd11c310"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+    
+        onAuthStateChanged(auth, (user) => {
+            const buttonContainer = document.querySelector('.login-logout-button');
+
+            if(user){
+                buttonContainer.innerHTML = `
+                    <button id="logout" class="auth-button">Logout</button>
+                `;
+                const logoutButton = document.getElementById('logout');
+                logoutButton.onclick = () => {
+                    signOut(auth)
+                        .then(() =>{
+                            alert("Logged out successfully.");
+                            window.location.reload();
+                        })
+                        .catch((error) => console.error("Logout error:", error));
+                };
+            }
+            else{
+                buttonContainer.innerHTML = `
+                    <a href="HTML/Login.html" class="auth-button">Login</a>
+                `;
+            }
+        });
+
+
+    </script>
+
+
+    <footer class="footer">
+        <p>Welcome</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/Register.css">
+    <title>Register</title>
+</head>
+
+<body>
+    <div class="register-container">
+        <form id="registerForm" class="register-form">
+            <h1>Register</h1>
+            <label for="organization">Your Organization</label>
+            <input type="text" id="organization" name="organization" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+            <button type="submit">Register</button>
+            <p class="redirect">Already have an account? <a href="Login.html">Login</a></p>
+        </form>
+    </div>
+
+    <script type="module">
+    
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5mCEcdm2acbln2lc37ltdHBa5vTQcOek",
+            authDomain: "mini-project-2acd8.firebaseapp.com",
+            projectId: "mini-project-2acd8",
+            storageBucket: "mini-project-2acd8.appspot.com",
+            messagingSenderId: "94989986353",
+            appId: "1:94989986353:web:f75648ab0adbd6fd11c310"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        document.getElementById('registerForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const organization = document.getElementById('organization').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(userCredential.user, { displayName: organization });
+                alert("Registration successful! You can now log in.");
+                window.location.href = "Login.html";
+            } catch (error) {
+                console.error("Error during registration:", error.message);
+                alert("Error: " + error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>

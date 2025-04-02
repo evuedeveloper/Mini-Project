@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/Login.css">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="login-container">
+        <form id="loginForm" class="login-form">
+            <h1>Login</h1>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+            <p class="redirect">Don't have an account? <a href="Register.html">Register</a></p>
+        </form>
+    </div>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5mCEcdm2acbln2lc37ltdHBa5vTQcOek",
+            authDomain: "mini-project-2acd8.firebaseapp.com",
+            projectId: "mini-project-2acd8",
+            storageBucket: "mini-project-2acd8.appspot.com",
+            messagingSenderId: "94989986353",
+            appId: "1:94989986353:web:f75648ab0adbd6fd11c310"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                alert("Login successful! Redirecting...");
+                window.location.href = "../index.html";
+            } catch (error) {
+                console.error("Error during login:", error.message);
+                alert("Error: " + error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
